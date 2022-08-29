@@ -1,0 +1,32 @@
+
+	<body>
+        <h1>Reading</h1>
+        <h4>When children read extensively, they become better writers. Find a book to read from the Google Books database to ignite the ideas in your mind.</h4>
+        <section>
+            <form action="/searchBook" method="POST">
+                <input type="search" id="searchTerm" name="searchTerm" class="form-control" placeholder="Search For Title">
+                <button type="submit" id="search" class="btn btn-success">Search</button>
+            </form> 
+        </section>
+        <section class="book-list">
+            <h4>Search Results</h4>
+            <div class="wrapper">
+                <div class="books">
+                <% if(books != null) {%>
+                <% books.items.forEach(function(book, index) {%>
+                    <a href="/book/<%-book.id %>" class="book__card">
+                        <img src="<%-book.volumeInfo.imageLinks.smallThumbnail %>" alt="<%-book.volumeInfo.title %>">
+                        <h4><%-book.volumeInfo.title %></h4>
+                        <p><%-book.volumeInfo.description %></p>
+                    </a>
+                    <% }) %>
+                    <%}else {%>
+                        No books found.
+                    <% } %>
+                </div>
+            </div>
+        </section>
+
+		<script type="text/javascript" src="js/main.js"></script>
+	</body>
+</html>

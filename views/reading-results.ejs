@@ -1,0 +1,21 @@
+ <body>  
+   <section>
+        <div class="wrapper">
+            <div class="books">
+            <% if(books != null) {%>
+            <% books.items.forEach(function(book, index) {%>
+                <a href="/book/<%-book.id %>" class="book__card">
+                    <img src="<%-book.volumeInfo.imageLinks.smallThumbnail %>" alt="<%-book.volumeInfo.title %>">
+                    <h4><%-book.volumeInfo.title %></h4>
+                    <p><%-book.volumeInfo.description %></p>
+                </a>
+                <% }) %>
+                <%}else {%>
+                    No books found.
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript" src="js/main.js"></script>
+</body>

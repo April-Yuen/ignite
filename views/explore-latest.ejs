@@ -1,0 +1,17 @@
+<h1>Explore Latest Stories</h1>
+
+<div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+    <% if(story !== ""){ %>
+        <% story.forEach(function(story, index){ %>
+            <a href="/story/<%=story._id %>" class="col-text-center story__link">
+                <div class="story__img story__img--large shadow">
+                    <img src="/uploads/<%= story.file %>" alt="<% story.title %>" loading="lazy">
+                </div>
+                <div class="pt-1"><%=story.title %></div>
+            </a>
+       <% }) %>
+   <% } else{ %>
+    <p>No stories found.</p>
+   <% } %>
+
+</div>

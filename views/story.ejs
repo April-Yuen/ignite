@@ -1,0 +1,35 @@
+
+<% if(story != null) {%>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page"><%- story.title %></li>
+        </ol>
+    </nav>   
+
+    <div class="row">
+        <h1>Shared Stories</h1>
+        <div class="col-12 col-md-8">
+            <img src="/uploads/<%=story.file %> " class="img-fluid sticky-top" style="top:20px" alt="<%-story.title %>" loading="lazy">
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="row">
+                <div class="col-12"><h1><%- story.title %></h1></div>
+                <div class="col-12 mb-4"><h4><%- story.name %></h4></div>
+                <div class="col-12" style="white-space: pre-line">
+                    <h4>Description:</h4>
+                    <h5><%- story.description %></h5>
+                    <%- story.date %>
+                </div>
+                <div data-id="<%=story._id%>" >
+                    <i class="fa-solid fa-heart fa-lg <%= story.like === true ? 'like' : 'notlike'%>"></i>
+                </div>
+            </div>
+
+        </div>
+    </div>
+<% }else{ %>
+    <p>No item found.</p>
+<% } %>
