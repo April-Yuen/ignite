@@ -23,7 +23,11 @@ const storySchema = new mongoose.Schema({
     },
     file: {
         type: String,
-        required: false
+        require: true
+    },
+    cloudinaryId: {
+        type: String,
+        required: true,
     },
     date: {
         type: Date, 
@@ -32,7 +36,12 @@ const storySchema = new mongoose.Schema({
     },
     like: {
         type: Boolean,
+        required: true,
         default: false
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     }
 })
 

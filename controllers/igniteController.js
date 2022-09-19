@@ -1,69 +1,61 @@
-require('../models/database')
 const axios = require('axios')
 const Story = require('../models/Story')
+const cloudinary = require("../middleware/cloudinary")
 
 //Get/
 //homepage
 
-exports.homepage = async(req, res) => {
+module.exports = {
+
+homepage : async(req, res) => {
     try{
         const limitNumber = 5
         const latest = await Story.find({}).sort({_id: -1}).limit(limitNumber)
-        res.render('index', {title: "Ignite Writing- Home", latest})  
+        res.render('dashboard', {title: "Ignite Writing- Home", latest})  
     }catch(error){
         res.status(500).send({message: error.message || "Error Occurred"})
     } 
-}
+},
 
 //Get/ shared-stories
 //Show the errors/success & render the page. 
-exports.sharedStories = async(req, res) => {
+sharedStories : async(req, res) => {
     const infoErrorsObj = req.flash('infoErrors')
     const infoSubmitObj = req.flash('infoSubmit')
     res.render('shared-stories', {title: "Ignite Writing- Shared Stories", infoSubmitObj,infoErrorsObj})
-}
+},
 
 //POST/ Submit-Stories
-exports.submitStoryOnPost = async(req, res) => {
+submitStoryOnPost : async(req, res) => {
 
     try{
+        // Upload image to cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path)
 
-        let imageUploadFile;
-        let uploadPath;
-        let newImageName;
-
-        if(!req.files || Object.keys(req.files).length === 0){
-            console.log('No files were uploaded.')
-        }else{
-            imageUploadFile = req.files.image;
-            newImageName = Date.now() + imageUploadFile.name;
-            uploadPath = require('path').resolve('./') + '/public/uploads/' + newImageName;
-            imageUploadFile.mv(uploadPath, function(err){
-                if(err) return res.status(500).send(err)
-            })
-        }
-        const newStory = new Story({
+        await Story.create({
             name: req.body.name,
             email: req.body.email,
-            title: req.body.title, 
+            title: req.body.title,
             description: req.body.description,
             grade: req.body.grade,
-            file: newImageName,
-            date: req.body.date
+            file: result.secure_url,
+            cloudinaryId: result.public_id,
+            date: req.body.date,
+            // user: req.user.id
         })
-        await newStory.save()
 
         req.flash('infoSubmit', 'Story has been added')
         res.redirect('/shared-stories')
     }catch(error){
+        console.log(error)
         req.flash('infoErrors', error)
         res.redirect('/shared-stories')
     }
-}
+},
 
 //explore latest-Get
 
-exports.exploreLatest = async(req, res) =>{
+exploreLatest : async(req, res) =>{
 
     try{
         const limitNumber = 10
@@ -72,10 +64,10 @@ exports.exploreLatest = async(req, res) =>{
     }catch(error){
         res.status(500).send({message: error.message || "Error Occurred"})
     }
-}
+},
 
 // Get- Read story written by a kid
-exports.readStory = async(req, res) => {
+readStory : async(req, res) => {
     try {
         const storyId = req.params.id
         const story = await Story.findById(storyId)
@@ -83,64 +75,53 @@ exports.readStory = async(req, res) => {
     } catch (error) {
         res.status(500).send({message: error.message || "Error Occurred"})
     }
-}
+},
 
 // Put- Like a story
-exports.storyLike = async(req, res) =>{
+storyLike : async(req, res) =>{
+    let storyId = req.body.IdFromJSFile
     try {
-        await Story.findOneAndUpdate({_id: req.body.IdFromJSFile}),{
+        await Story.findOneAndUpdate({_id: storyId},{
             like: true
-        }
-        console.log('Marked Like')
+        })
+        console.log('Marked Like', storyId)
         res.json('Marked Like')
+        // res.render('story', {like: true})
     } catch (error) {
         console.log(error)
     }
-}
+},
 
-// Put- Not Like a story
-exports.storyNotLike = async(req, res) => {
+//Put- Not Like a story
+notLikeStory : async(req, res) => {
+    let storyId = req.body.IdFromJSFile
     try {
-        await Story.findOneAndUpdate({_id: req.body.IdFromJSFile}),{
+        let markItem = await Story.findOneAndUpdate({_id: storyId},{
             like: false
-        }
-        console.log('Marked not like')
+        })
+        console.log('Marked not like', markItem, storyId)
         res.json('Marked not like')
     } catch (error) {
         console.log(error)
     }
-}
+},
 
 // Get -Render the Reading page. 
-exports.readABook = async(req, res) => {
+readABook : async(req, res) => {
     try {
-        const searchTerm = req.params.searchTerm
-        let bookAPI = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}:keyes&key=${APIKEY}`)
-        res.render('reading', {books: bookAPI.data})
-        console.log(books)
+        res.render('reading', {title: "Read a Book Google API"})
     } catch (error) {
-        if(error.reponse){
-            res.render('reading', {books: null})
-            console.log(error.response.data)
-            console.log(error.response.status)
-            console.log(error.response.headers)
-        }else if(error.request){
-            res.render('reading', {books: null})
-            console.log(error.request)
-        }else{
-            res.render('reading', {books: null})
-            console.error('Error', error.message)
-            res.status(500).send({message: error.message || "Error Occurred"})
-        }
+        res.status(500).send({message: error.message || "Error Occurred"})
     }
-}
+},
 
 // Read a book from the Google API database
-exports.findABooksOnPost = async(req,res) => {
+findABooksOnPost : async(req,res) => {
     try {
         const searchTerm = req.body.searchTerm
         let bookAPI = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}:keyes&key=${APIKEY}`)
-        res.render('reading-results', {books: bookAPI.data})
+        let books = bookAPI.data
+        res.render('reading-results', {books: books})
         console.log(books)
     } catch (error) {
         if(error.reponse){
@@ -157,9 +138,34 @@ exports.findABooksOnPost = async(req,res) => {
             res.status(500).send({message: error.message || "Error Occurred"})
         }
     }
+},
+
+//Click a book and read it. 
+readABookOnClick : async(req,res) => {
+    let bookID = req.params.ISBN
+    let book = bookID
+    try {
+        res.render('book', {book: book})
+        console.log(book)
+    } catch (error) {
+        if(error.reponse){
+            res.render('book', {book: null})
+            console.log(error.response.data)
+            console.log(error.response.status)
+            console.log(error.response.headers)
+        }else if(error.request){
+            res.render('book', {book: null})
+            console.log(error.request)
+        }else{
+            res.render('book', {book: null})
+            console.error('Error', error.message)
+            res.status(500).send({message: error.message || "Error Occurred"})
+        }
+    }
+},
+
+
 }
-
-
 //Insert Story to Database
 // async function insertDymmyStoryData(){
 //     try{

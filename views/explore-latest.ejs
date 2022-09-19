@@ -3,7 +3,7 @@
 <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
     <% if(story !== ""){ %>
         <% story.forEach(function(story, index){ %>
-            <a href="/story/<%=story._id %>" class="col-text-center story__link">
+            <a href="/stories/story/<%=story._id %>" class="col-text-center story__link">
                 <div class="story__img story__img--large shadow">
                     <img src="/uploads/<%= story.file %>" alt="<% story.title %>" loading="lazy">
                 </div>

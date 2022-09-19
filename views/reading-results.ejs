@@ -5,9 +5,10 @@
             <% if(books != null) {%>
             <% books.items.forEach(function(book, index) {%>
                 <a href="/book/<%-book.id %>" class="book__card">
-                    <img src="<%-book.volumeInfo.imageLinks.smallThumbnail %>" alt="<%-book.volumeInfo.title %>">
-                    <h4><%-book.volumeInfo.title %></h4>
+                    <img class="reading-results-img" src="<%-book.volumeInfo.imageLinks.smallThumbnail %>" alt="<%-book.volumeInfo.title %>">
+                    <h4 class="reading-results-h4"><%-book.volumeInfo.title %></h4>
                     <p><%-book.volumeInfo.description %></p>
+                    <a href="/book/<%-book.volumeInfo.industryIdentifiers[0].identifier %>"><button>Read More</button></a>
                 </a>
                 <% }) %>
                 <%}else {%>
