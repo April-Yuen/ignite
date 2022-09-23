@@ -5,7 +5,7 @@ const User = require("../models/User");
 
 exports.getLogin = (req, res) => {
     if(req.user) {
-        return res.redirect("/dashboard");
+        return res.redirect("/stories/dashboard");
     }
     res.render("login", {
         title: "Login"
@@ -40,14 +40,14 @@ exports.postLogin = (req, res, next) => {
           return next(err);
         }
         req.flash("success", { msg: "Success! You are logged in." });
-        res.redirect(req.session.returnTo || "/profile");
+        res.redirect(req.session.returnTo || "/stories/dashboard");
       });
     })(req, res, next);
   };
 
 exports.getSignup = (req, res) => {
     if(req.user){
-        return res.redirect("/dashboard");
+        return res.redirect("/stories/dashboard");
     }
     res.render("signup", {
         title: "Create Account",
@@ -73,6 +73,12 @@ exports.postSignup = (req, res, next) => {
         gmail_remove_dots: false,
     });
 
+    const user = new User({
+        userName: req.body.userName,
+        email: req.body.email,
+        password: req.body.password,
+    });
+
     User.findOne(
         {$or: [{email: req.body.email}, { username: req.body.userName}] }, 
         (err, existingUser) => {
@@ -93,7 +99,7 @@ exports.postSignup = (req, res, next) => {
                     if(err){
                         return next(err);
                     }
-                    res.redirect("/dashboard")
+                    res.redirect("stories/dashboard")
                 })
             })
         }

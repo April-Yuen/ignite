@@ -5,7 +5,7 @@ const upload = require("../middleware/multer")
 
 // App Routes
 
-router.get("/", igniteController.homepage)
+router.get("/dashboard", igniteController.homepage)
 router.get('/shared-stories', igniteController.sharedStories)
 router.post('/shared-stories', upload.single("file"), igniteController.submitStoryOnPost)
 router.get('/explore-latest', igniteController.exploreLatest)
