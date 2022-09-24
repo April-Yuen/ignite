@@ -1,6 +1,8 @@
 const axios = require('axios')
 const Story = require('../models/Story')
 const cloudinary = require("../middleware/cloudinary")
+const APIKEY = process.env.GOOGLE_APIKEY
+
 
 //Get/
 //homepage
