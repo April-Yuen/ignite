@@ -11,7 +11,7 @@ async function likeStory(){
     const heartId = this.dataset.id
     console.log(heartId)
     try {
-        const response = await fetch('/storyLike', {
+        const response = await fetch('/stories/storyLike', {
             method: 'put',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({
@@ -30,7 +30,7 @@ async function notLikeStory(){
     const heartId = this.dataset.id
     console.log(heartId)
     try {
-        const response = await fetch('/notLikeStory', {
+        const response = await fetch('/stories/notLikeStory', {
             method: 'put',
             headers: {'Content-type': 'application/json'}, 
             body: JSON.stringify({

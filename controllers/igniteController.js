@@ -1,5 +1,6 @@
 const axios = require('axios')
 const Story = require('../models/Story')
+const User = require('../models/User')
 const cloudinary = require("../middleware/cloudinary")
 const APIKEY = process.env.GOOGLE_APIKEY
 
@@ -43,11 +44,11 @@ submitStoryOnPost : async(req, res) => {
             file: result.secure_url,
             cloudinaryId: result.public_id,
             date: req.body.date,
-            // user: req.user.id
+            user: req.user.id
         })
 
         req.flash('infoSubmit', 'Story has been added')
-        res.redirect('/shared-stories')
+        res.redirect('/stories/shared-stories')
     }catch(error){
         console.log(error)
         req.flash('infoErrors', error)
@@ -150,7 +151,7 @@ readABookOnClick : async(req,res) => {
         res.render('book', {book: book})
         console.log(book)
     } catch (error) {
-        if(error.reponse){
+        if(error.response){
             res.render('book', {book: null})
             console.log(error.response.data)
             console.log(error.response.status)
@@ -163,6 +164,19 @@ readABookOnClick : async(req,res) => {
             console.error('Error', error.message)
             res.status(500).send({message: error.message || "Error Occurred"})
         }
+    }
+},
+
+// Read your favorite stories from other children
+readFavories : async(req, res) =>{
+    try{
+        const user = req.user.id
+        const story = await Story.find({$and:[{like:"true"}, {user:user}]})
+        console.log(story)
+        res.render('favorites', {title: 'Ignite Writing-Read Favorites', story: story, user: req.user, name: req.user.userName})
+    
+    }catch(error){
+        res.status(500).send({message: error.message || "Error Occurred"})
     }
 },
 

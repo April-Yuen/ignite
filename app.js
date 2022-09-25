@@ -10,10 +10,10 @@ const session = require('express-session')
 const flash = require('express-flash')
 const logger = require('morgan')
 const MongoStore = require('connect-mongo')
-const bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
 const dotenv = require('dotenv')
 const cors = require('cors')
-const cookieParser = require('cookie-parser')
+// const cookieParser = require('cookie-parser')
 const connectDB = require('./config/db')
 const storyRoutes = require('./routes/stories')
 const mainRoutes = require('./routes/main')
@@ -27,17 +27,24 @@ require("./config/passport")(passport);
 // Connecting to the database
 connectDB()
 
-//Middleware
+// Using EJS for views
+app.set('view engine', 'ejs')
+
+// Static Folders
 app.use(express.static('public'))
+
+// Middleware
 app.use(express.urlencoded({extended:true}))
-app.use(bodyParser.urlencoded({extended : true}))
+// app.use(bodyParser.urlencoded({extended : true}))
 app.use(express.json())
-app.use(expressLayouts)
-app.use(cors())
 
 // Logging
 app.use(logger("dev"));
-app.use(cookieParser('IgniteAppSecure'))
+
+app.use(expressLayouts)
+app.use(cors())
+
+// app.use(cookieParser('IgniteAppSecure'))
 app.use(session({
     secret: "IgniteAppSecretSession",
     saveUninitialized: false, 
@@ -46,15 +53,20 @@ app.use(session({
     })
 );
 
-app.use((req, res, next) => {
-    res.locals.message = req.session.message;
-    delete req.session.message;
-    next();
-})
+// app.use((req, res, next) => {
+//     res.locals.message = req.session.message;
+//     delete req.session.message;
+//     next();
+// })
+
+//Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(flash());
 
+// Static folders and layouts
 app.set('layout', './layouts/main')
-app.set('view engine', 'ejs')
 
 // const { default: mongoose } = require('mongoose')
 app.use('/', mainRoutes)

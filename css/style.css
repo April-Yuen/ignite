@@ -59,7 +59,7 @@
     height: 200%;
   } 
 
-  .like{
+  /* .like{
     width: 4rem;
     height: 4rem;
     font-size: 2rem;
@@ -71,9 +71,12 @@
     border: none;
     padding-top: 0.2rem;
     color: red;
+  } */
+  .like{
+    color:red;
   }
 
-  .not{
+  /* .not{
     width: 4rem;
     height: 4rem;
     font-size: 2rem;
@@ -86,6 +89,10 @@
     color: rgb(84, 84, 84);
     padding-top: 0.2rem;
     color: black;
+  } */
+
+  .not{
+    color:black;
   }
 
   .reading-results-img {
