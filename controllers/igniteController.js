@@ -168,17 +168,28 @@ readABookOnClick : async(req,res) => {
 },
 
 // Read your favorite stories from other children
-readFavories : async(req, res) =>{
-    try{
-        const user = req.user.id
-        const story = await Story.find({$and:[{like:"true"}, {user:user}]})
-        console.log(story)
-        res.render('favorites', {title: 'Ignite Writing-Read Favorites', story: story, user: req.user, name: req.user.userName})
-    
-    }catch(error){
-        res.status(500).send({message: error.message || "Error Occurred"})
+readFavorites : async(req,res) => {
+    try {
+        const story = await Story.find({favorites: req.user.favorites})
+        res.render('favorites', {title: 'Ignite Writing-Read Favorites', story})
+    } catch (error) {
+        res.status(500).send({message: error.message} || "Error Occurred")
     }
-},
+}
+
+
+// Read your favorite stories from other children
+// readFavories : async(req, res) =>{
+//     try{
+//         const user = req.user.id
+//         const story = await Story.find({$and:[{like:"true"}, {user:user}]})
+//         console.log(story)
+//         res.render('favorites', {title: 'Ignite Writing-Read Favorites', story: story, user: req.user, name: req.user.userName})
+    
+//     }catch(error){
+//         res.status(500).send({message: error.message || "Error Occurred"})
+//     }
+// },
 
 
 }

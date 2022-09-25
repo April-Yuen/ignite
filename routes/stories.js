@@ -16,6 +16,6 @@ router.put('/notLikeStory', ensureAuth, igniteController.notLikeStory)
 router.get('/reading', igniteController.readABook)
 router.post('/searchBook', igniteController.findABooksOnPost)
 router.get('/book/:ISBN', igniteController.readABookOnClick)
-router.get('/favorites', ensureAuth, igniteController.readFavories)
+router.get('/favorites', ensureAuth, igniteController.readFavorites)
 
 module.exports = router;

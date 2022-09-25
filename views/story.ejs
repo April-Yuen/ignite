@@ -23,8 +23,10 @@
                     <h5><%- story.description %></h5>
                     <%- story.date %>
                 </div>
-                <h6>Like a story to save it.</h6>
-                <i class="fa-solid fa-heart  <%= story.like === true ? 'like' : 'notlike'%>" data-id="<%=story._id %>"></i>
+                <div>
+                    <h6>Like a story to save it.</h6>
+                    <i class="fa-solid fa-heart  <%= story.like === true ? 'like' : 'notlike'%>" data-id="<%=story._id %>"></i>
+                </div>  
                 <% /* %>
                     <button type="button" class="favorite-button <%= story.like === true ? 'like' : 'notlike'%>" id="heart" aria-label="favorite" data-id="<%=story._id %>">
                         <i class="fa-solid fa-heart"></i>

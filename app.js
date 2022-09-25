@@ -10,7 +10,7 @@ const session = require('express-session')
 const flash = require('express-flash')
 const logger = require('morgan')
 const MongoStore = require('connect-mongo')
-// const bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
 const dotenv = require('dotenv')
 const cors = require('cors')
 // const cookieParser = require('cookie-parser')
@@ -35,7 +35,7 @@ app.use(express.static('public'))
 
 // Middleware
 app.use(express.urlencoded({extended:true}))
-// app.use(bodyParser.urlencoded({extended : true}))
+app.use(bodyParser.urlencoded({extended : true}))
 app.use(express.json())
 
 // Logging
