@@ -87,6 +87,14 @@ storyLike : async(req, res) =>{
         await Story.findOneAndUpdate({_id: storyId},{
             like: true
         })
+        let story = await Story.findById(storyId)
+        story.likesBy = story.likesBy.push(req.user)
+        await story.save()
+        console.log(story.likesBy)
+
+        req.user.favorites.push(storyId)
+        await req.user.save()
+
         console.log('Marked Like', storyId)
         res.json('Marked Like')
         // res.render('story', {like: true})
@@ -102,6 +110,10 @@ notLikeStory : async(req, res) => {
         let markItem = await Story.findOneAndUpdate({_id: storyId},{
             like: false
         })
+
+        req.user.favorites = req.user.favorites.filter( story => story != storyId)
+        await req.user.save()
+
         console.log('Marked not like', markItem, storyId)
         res.json('Marked not like')
     } catch (error) {
@@ -170,8 +182,13 @@ readABookOnClick : async(req,res) => {
 // Read your favorite stories from other children
 readFavorites : async(req,res) => {
     try {
-        const story = await Story.find({favorites: req.user.favorites})
-        res.render('favorites', {title: 'Ignite Writing-Read Favorites', story})
+        let stories = await Story.find();
+        let favStories = stories.filter(story => req.user.favorites.includes(story.id))
+        console.log(favStories)
+
+        res.render('favorites', {title: 'Ignite Writing-Read Favorites', 
+                                stories : favStories, 
+                                name: req.user.userName})
     } catch (error) {
         res.status(500).send({message: error.message} || "Error Occurred")
     }
