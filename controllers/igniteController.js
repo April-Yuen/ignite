@@ -83,22 +83,22 @@ readStory : async(req, res) => {
 // Put- Like a story
 storyLike : async(req, res) =>{
     let storyId = req.body.IdFromJSFile
-    console.log("Hi")
+    let userId = (req.user.id).toString()
+    console.log(userId)
     try {
-        // await Story.findOneAndUpdate({_id: storyId},{
-        //     like: true
-        // })
         let story = await Story.findById(storyId)
-        story.likesBy = story.likesBy.push(req.user)
+
+        let arr = story.likesBy
+
+        arr.push(userId)
+
         await story.save()
-        console.log(story.likesBy)
 
         req.user.favorites.push(storyId)
         await req.user.save()
 
         console.log('Marked Like', storyId)
         res.json('Marked Like')
-        // res.render('story', {like: true})
     } catch (error) {
         console.log(error)
     }
@@ -108,14 +108,19 @@ storyLike : async(req, res) =>{
 notLikeStory : async(req, res) => {
     let storyId = req.body.IdFromJSFile
     try {
-        let markItem = await Story.findOneAndUpdate({_id: storyId},{
-            like: false
-        })
+        let story = await Story.findById(storyId)
+
+        story.likesBy = story.likesBy.filter(id => id.toString() !== req.user.id.toString())
+
+        await story.save()
 
         req.user.favorites = req.user.favorites.filter( story => story != storyId)
+
+        console.log(req.user.favorites)
+
         await req.user.save()
 
-        console.log('Marked not like', markItem, storyId)
+        console.log('Marked not like', storyId)
         res.json('Marked not like')
     } catch (error) {
         console.log(error)
@@ -193,21 +198,15 @@ readFavorites : async(req,res) => {
     } catch (error) {
         res.status(500).send({message: error.message} || "Error Occurred")
     }
+},
+readMyStories : async(req, res) => {
+    try {
+        const stories = await Story.find({user: req.user.id});
+        res.render('myStories.ejs', {stories: stories, user: req.user, name: req.user.userName})
+    } catch (error) {
+        console.log(error)
+    }
 }
-
-
-// Read your favorite stories from other children
-// readFavories : async(req, res) =>{
-//     try{
-//         const user = req.user.id
-//         const story = await Story.find({$and:[{like:"true"}, {user:user}]})
-//         console.log(story)
-//         res.render('favorites', {title: 'Ignite Writing-Read Favorites', story: story, user: req.user, name: req.user.userName})
-    
-//     }catch(error){
-//         res.status(500).send({message: error.message || "Error Occurred"})
-//     }
-// },
 
 
 }

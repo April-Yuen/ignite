@@ -8,9 +8,14 @@
     <script type="text/javascript">
       google.books.load();
 
+      function alertNotFound() {
+        alert("Preview of the book is not available!");
+      }
+
+
       function initialize() {
         var viewer = new google.books.DefaultViewer(document.getElementById('viewerCanvas'));
-        viewer.load("ISBN:<%=book%>");
+        viewer.load("ISBN:<%=book%>", alertNotFound);
       }
 
       google.books.setOnLoadCallback(initialize);

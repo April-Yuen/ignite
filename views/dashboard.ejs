@@ -10,6 +10,7 @@
             <p class="lead">Explore the beautiful stories told by children around the world. Find inspiration to write your own stories.</p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                 <a href="/stories/explore-latest" class="btn btn-dark btn-lg">Latest Stories</a>
+                <a href="/stories/myStories" class="btn btn-dark btn-lg">My Stories</a>
             </div>
         </div>
 
@@ -28,7 +29,9 @@
                     <a href="/stories/story/<%= story._id %>" class="col text-center story__link">
                         <div class="story__img story__img--large shadow">
                             <img src="<%-story.file %>" alt="<%= story.title %>" loading="lazy">
+                            <% /* %>
                             <iframe src="<%-story.file%>" ></iframe>
+                            <% */ %>
                         </div>
                         <div class="pt-1"><%= story.title %></div>
                         <div class="pt-1"><%= story.description %></div>

@@ -6,7 +6,7 @@
         <% if(books != null) {%>
         <% books.items.forEach(function(book, index) {%>
         <div>
-            <img class="reading-results-img img-thumbnail" src="<%-book.volumeInfo.imageLinks.smallThumbnail %> == undefined ? " " : <%-book.volumeInfo.imageLinks.smallThumbnail %> " alt="<%-book.volumeInfo.title %>">
+            <img class="reading-results-img" src="<%-book.volumeInfo.imageLinks=== undefined ? "" : book.volumeInfo.imageLinks.smallThumbnail%>" alt="<%-book.volumeInfo.title %>">
         </div>  
         <div class="search-result-item-body">
             <div class="row">
@@ -16,7 +16,7 @@
                     <p class="description"><%-book.volumeInfo.description %></p>
                 </div>
                 <div class="col-sm-3 text-align-center">
-                    <a class="btn btn-success" href="/stories/book/<%-book.volumeInfo.industryIdentifiers[1].identifier %> ">Read More</a>
+                    <a href="/stories/book/<%-book.volumeInfo.industryIdentifiers === undefined ? "" : book.volumeInfo.industryIdentifiers[0].identifier %>"><button class="btn btn-success">Read More</button></a>
                 </div>
                 <% }) %>
                 <%}else {%>
@@ -27,27 +27,6 @@
     </section>
  </div>
  </div>
- </div>
-    <% /* %>
-   <section>
-        <div class="wrapper">
-            <div class="books">
-            <% if(books != null) {%>
-            <% books.items.forEach(function(book, index) {%>
-                <a href="/stories/book/<%-book.id %>" class="book__card">
-                    <img class="reading-results-img" src="<%-book.volumeInfo.imageLinks.smallThumbnail %>" alt="<%-book.volumeInfo.title %>">
-                    <h4 class="reading-results-h4"><%-book.volumeInfo.title %></h4>
-                    <p><%-book.volumeInfo.description %></p>
-                    <a href="/stories/book/<%-book.volumeInfo.industryIdentifiers[1].identifier %>"><button>Read More</button></a>
-                </a>
-                <% }) %>
-                <%}else {%>
-                    No books found.
-                <% } %>
-            </div>
-        </div>
-    </section>
-    <% */ %>
-
+</div>
     <script type="text/javascript" src="js/main.js"></script>
 </body>

@@ -1,0 +1,17 @@
+<h1> <%-name%>'s Stories</h1>
+
+<div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+    <% if(stories !== ""){ %>
+        <% stories.forEach(function(story, index){ %>
+            <a href="/stories/story/<%=story._id %>" class="col-text-center story__link">
+                <div class="story__img story__img--large shadow">
+                    <img src="<%= story.file %>" alt="<% story.title %>" loading="lazy">
+                </div>
+                <div class="pt-1"><%=stories.title %></div>
+            </a>
+       <% }) %>
+   <% } else{ %>
+    <p>No stories found.</p>
+   <% } %>
+
+</div>
