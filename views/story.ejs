@@ -25,7 +25,7 @@
                 </div>
                 <div>
                     <h6>Like a story to save it.</h6>
-                    <i class="fa-solid fa-heart  <%= story.like === true ? 'like' : 'notlike'%>" data-id="<%=story._id %>"></i>
+                    <i class="fa-solid fa-heart  <%= story.likesBy.includes(user.id) === true ? 'like' : 'notlike'%>" data-id="<%=story._id %>"></i>
                 </div>  
                 <% /* %>
                     <button type="button" class="favorite-button <%= story.like === true ? 'like' : 'notlike'%>" id="heart" aria-label="favorite" data-id="<%=story._id %>">

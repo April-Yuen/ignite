@@ -34,11 +34,11 @@ const storySchema = new mongoose.Schema({
         required: true, 
         default: Date.now
     },
-    like: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
+    // like: {
+    //     type: Boolean,
+    //     required: true,
+    //     default: false
+    // },
     likesBy: [String],
     user: {
         type: mongoose.Schema.Types.ObjectId,

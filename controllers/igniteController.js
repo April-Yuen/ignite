@@ -74,7 +74,7 @@ readStory : async(req, res) => {
     try {
         const storyId = req.params.id
         const story = await Story.findById(storyId)
-        res.render('story', {title: 'Ignite Writing-Read a story', story})
+        res.render('story', {title: 'Ignite Writing-Read a story', story, user: req.user})
     } catch (error) {
         res.status(500).send({message: error.message || "Error Occurred"})
     }
@@ -83,10 +83,11 @@ readStory : async(req, res) => {
 // Put- Like a story
 storyLike : async(req, res) =>{
     let storyId = req.body.IdFromJSFile
+    console.log("Hi")
     try {
-        await Story.findOneAndUpdate({_id: storyId},{
-            like: true
-        })
+        // await Story.findOneAndUpdate({_id: storyId},{
+        //     like: true
+        // })
         let story = await Story.findById(storyId)
         story.likesBy = story.likesBy.push(req.user)
         await story.save()
