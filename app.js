@@ -5,15 +5,15 @@ const mongoose = require("mongoose")
 const expressLayouts = require('express-ejs-layouts')
 const passport = require("passport")
 const axios = require('axios')
+const methodOverride = require("method-override");
 const session = require('express-session')
-// const flash = require('connect-flash')
 const flash = require('express-flash')
 const logger = require('morgan')
 const MongoStore = require('connect-mongo')
 const bodyParser = require('body-parser')
 const dotenv = require('dotenv')
 const cors = require('cors')
-// const cookieParser = require('cookie-parser')
+const moment = require('moment')
 const connectDB = require('./config/db')
 const storyRoutes = require('./routes/stories')
 const mainRoutes = require('./routes/main')
@@ -41,6 +41,8 @@ app.use(express.json())
 // Logging
 app.use(logger("dev"));
 
+app.use(methodOverride("_method"));
+
 app.use(expressLayouts)
 app.use(cors())
 
@@ -53,17 +55,18 @@ app.use(session({
     })
 );
 
-// app.use((req, res, next) => {
-//     res.locals.message = req.session.message;
-//     delete req.session.message;
-//     next();
-// })
 
 //Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(flash());
+
+// Middleware for moment
+app.use((req, res, next) => {
+    res.locals.moment = moment;
+    next()
+});
 
 // Static folders and layouts
 app.set('layout', './layouts/main')

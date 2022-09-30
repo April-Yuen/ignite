@@ -36,7 +36,7 @@ submitStoryOnPost : async(req, res) => {
         const result = await cloudinary.uploader.upload(req.file.path)
 
         await Story.create({
-            name: req.body.name,
+            // name: req.body.name,
             email: req.body.email,
             title: req.body.title,
             description: req.body.description,
@@ -185,7 +185,7 @@ readABookOnClick : async(req,res) => {
     }
 },
 
-// Read your favorite stories from other children
+// Get-Read your favorite stories from other children
 readFavorites : async(req,res) => {
     try {
         let stories = await Story.find();
@@ -199,12 +199,28 @@ readFavorites : async(req,res) => {
         res.status(500).send({message: error.message} || "Error Occurred")
     }
 },
+// Get-Read your own stories
 readMyStories : async(req, res) => {
     try {
         const stories = await Story.find({user: req.user.id});
         res.render('myStories.ejs', {stories: stories, user: req.user, name: req.user.userName})
     } catch (error) {
         console.log(error)
+    }
+},
+
+deleteStory : async(req, res) => {
+    console.log("Hi")
+    try {
+        let story = await Story.findById({_id: req.params.id});
+        console.log(story)
+        await cloudinary.uploader.destroy(story.cloudinaryId);
+        await Story.remove({_id: req.params.id});
+        console.log("Deleted Post")
+        res.redirect("/stories/myStories")
+    } catch (error) {
+        console.log(error)
+        res.redirect("/stories/myStories")
     }
 }
 

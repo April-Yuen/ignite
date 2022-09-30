@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
 const storySchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: "This field is required."
-    }, 
+    // name: {
+    //     type: String,
+    //     required: "This field is required."
+    // }, 
     email: {
         type: String,
         required: "This field is required."

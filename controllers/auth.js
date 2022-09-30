@@ -8,7 +8,8 @@ exports.getLogin = (req, res) => {
         return res.redirect("/stories/dashboard");
     }
     res.render("login", {
-        title: "Login"
+        title: "Login",
+        layout: './layouts/auth'
     })
 };
 
@@ -65,6 +66,7 @@ exports.getSignup = (req, res) => {
     }
     res.render("signup", {
         title: "Create Account",
+        layout: './layouts/auth'
     })
 };
 
