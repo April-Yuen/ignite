@@ -21,17 +21,17 @@
 	<body>
         <div class="'container-xxl px-md-5 bg-white shadow-lg">
         <header>
-            <nav class="navbar navbar-expand-lg navbar-light mb-0 border-bottom" style="background-color: white">
+            <nav class="navbar navbar-expand-lg navbar-light mb-0 border-bottom justify-content-md-center justify-content-start" style="background-color: white">
                 <a class="navbar-brand mb-0" href="/stories/dashboard" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-decoration-none">
-                    <img class="d-inline-block align-top"src="/img/newIgniteLogo.png" width="130" height="145" alt="Writing website made with node.js">
+                    <img class="img-fluid"src="/img/newIgniteLogo.png" width="130" height="145" alt="Writing website made with node.js">
                 </a>
-
-                <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" class="navbar-toggler" aria-controls="navbarNav" aria-expanded="false" aria-labe="Toggle navigation">
+                <div class="ml-auto">
+                <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" class="navbar-toggler ml-auto" aria-controls="navbarNav" aria-expanded="false" aria-labe="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                    <ul class="navbar-nav">
+                </div>
+                <div class="collapse navbar-collapse justify-content-center justify-content-between align-items-center w-100" id="navbarNav">
+                    <ul class="navbar-nav mx-auto text-md-center text-left">
                         <li class="nav-item active">
                             <a href="/stories/dashboard" class="nav-link">Home</a>
                         </li>
@@ -45,7 +45,7 @@
                             <a href="/stories/favorites" class="nav-link">Favorite Stories</a>
                         </li>
                     </ul>
-                    <form class="d-flex">
+                    <form class="d-flex text-end">
                         <a href="/logout" class="btn btn-success">Logout</a>
                     </form>
                 </div>

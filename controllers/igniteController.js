@@ -161,7 +161,7 @@ findABooksOnPost : async(req,res) => {
     }
 },
 
-//Click a book and read it. 
+//Click a book and read it from the Google Books API. 
 readABookOnClick : async(req,res) => {
     let bookID = req.params.ISBN
     let book = bookID
