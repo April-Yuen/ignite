@@ -1,4 +1,4 @@
-## Barcode: <a href="https://ignite-production.up.railway.app/">Live Demo</a>
+## Ignite: <a href="https://ignite-production.up.railway.app/">Live Demo</a>
 <a href="https://ignite-production.up.railway.app/" target="_blank"><img src="public/img/ignitereadme.png" /></a>
 
 ## How It's Made:
