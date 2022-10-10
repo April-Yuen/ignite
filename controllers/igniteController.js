@@ -36,7 +36,7 @@ submitStoryOnPost : async(req, res) => {
         const result = await cloudinary.uploader.upload(req.file.path)
 
         await Story.create({
-            // name: req.body.name,
+            name: req.body.name,
             email: req.body.email,
             title: req.body.title,
             description: req.body.description,
